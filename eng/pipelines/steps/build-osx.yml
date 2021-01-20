@@ -103,18 +103,18 @@ steps:
     inputs:
       Contents: |
         **/XamarinFormsControlGalleryiOS.ipa
-        **/Xamarin.Forms.Core.iOS.UITests/bin/$(BuildConfiguration)/Newtonsoft.Json.*
-        **/Xamarin.Forms.Core.iOS.UITests/bin/$(BuildConfiguration)/nunit.*
-        **/Xamarin.Forms.Core.iOS.UITests/bin/$(BuildConfiguration)/NUnit3.*
-        **/Xamarin.Forms.Core.iOS.UITests/bin/$(BuildConfiguration)/Plugin.*
-        **/Xamarin.Forms.Core.iOS.UITests/bin/$(BuildConfiguration)/Xamarin.*
+        **/Xamarin.Forms.Core.iOS.UITests/bin/Debug/Newtonsoft.Json.*
+        **/Xamarin.Forms.Core.iOS.UITests/bin/Debug/nunit.*
+        **/Xamarin.Forms.Core.iOS.UITests/bin/Debug/NUnit3.*
+        **/Xamarin.Forms.Core.iOS.UITests/bin/Debug/Plugin.*
+        **/Xamarin.Forms.Core.iOS.UITests/bin/Debug/Xamarin.*
       TargetFolder: '$(build.artifactstagingdirectory)/ios'
       flattenFolders: true
 
   - task: CopyFiles@2
     displayName: 'Copy iOS dSYM'
     inputs:
-      SourceFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.iOS/bin/iPhone/$(BuildConfiguration)/XamarinFormsControlGalleryiOS.app.dSYM/'
+      SourceFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.iOS/bin/iPhone/Debug/XamarinFormsControlGalleryiOS.app.dSYM/'
       TargetFolder: '$(build.artifactstagingdirectory)/ios/iPhone/XamarinFormsControlGalleryiOS.app.dSYM/'
       CleanTargetFolder: false
       flattenFolders: false
@@ -122,7 +122,7 @@ steps:
   - task: CopyFiles@2
     displayName: 'Copy iOS App'
     inputs:
-      SourceFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.iOS/bin/iPhoneSimulator/$(BuildConfiguration)/XamarinFormsControlGalleryiOS.app/'
+      SourceFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.iOS/bin/iPhoneSimulator/Debug/XamarinFormsControlGalleryiOS.app/'
       TargetFolder: '$(build.artifactstagingdirectory)/ios/iPhoneSimulator/XamarinFormsControlGalleryiOS.app/'
       CleanTargetFolder: false
       flattenFolders: false
