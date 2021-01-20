@@ -75,17 +75,9 @@ steps:
     inputs:
       SourceFolder: src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/bin/$(BuildConfiguration)/
       Contents: '**/*.apk'
-      TargetFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/$(outputfolder)/'
-      CleanTargetFolder: true
-      OverWrite: true
-  
-  - task: CopyFiles@2
-    displayName: 'Copy Android apk $(renderers) for UITest'
-    inputs:
-      Contents: |
-        src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/$(outputfolder)/com.xamarin.xamarin_forms_controlgallery.apk
       TargetFolder: '$(build.artifactstagingdirectory)/androidApp'
       CleanTargetFolder: true
+      flattenFolders: true
   
   - task: PublishBuildArtifacts@1
     displayName: 'Publish Artifact: AndroidApps'
