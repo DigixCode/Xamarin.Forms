@@ -60,7 +60,7 @@ steps:
     displayName: 'NuGet restore Xamarin.Forms'
     inputs:
       command: restore
-      restoreSolution: variables['SolutionFile']
+      restoreSolution: $(SolutionFile)
       feedsToUse: config
       nugetConfigPath: 'eng/DevopsNuget.config'
 
@@ -68,7 +68,7 @@ steps:
     displayName: 'NuGet restore ControlGallery'
     inputs:
       command: restore 
-      restoreSolution: variables['ControlGallerySolutionFile']
+      restoreSolution: $(ControlGallerySolutionFile)
       feedsToUse: config
       nugetConfigPath: 'eng/DevopsNuget.config'
 
