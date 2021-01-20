@@ -114,7 +114,7 @@ stages:
       - template: steps/build-android.yml
         parameters:
           vmPool: $(macOSXVmPool)
-          vmImage: $(macOSXVmPool)
+          vmImage: $(macOSXVmImage)
           provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
           provisionator.extraArguments : '--v'
        
