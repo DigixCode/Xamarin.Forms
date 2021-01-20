@@ -25,14 +25,6 @@ jobs:
       name: ${{ coalesce(parameters.vmPool, 'Azure Pipelines') }}
       vmImage: ${{ coalesce(parameters.vmImage, 'macOS-10.15') }}
     dependsOn: ${{ parameters.dependsOn }}
-    strategy:
-      matrix:
-        android_legacy:
-          renderers: 'LEGACY'
-          outputfolder: 'legacyRenderers'
-        android_newRenderers:
-          renderers: 'FAST'
-          outputfolder: 'newRenderers'
     steps:
       - checkout: self
         clean: true

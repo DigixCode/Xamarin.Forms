@@ -117,4 +117,6 @@ stages:
           vmImage: $(macOSXVmImage)
           provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
           provisionator.extraArguments : '--v'
+          renderers: 'FAST'
+          outputfolder: 'newRenderers'
        
