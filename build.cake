@@ -51,7 +51,7 @@ var IOS_CONTROLGALLERY_PROJ = "src/ControlGallery/src/Xamarin.Forms.ControlGalle
 var IOS_TEST_PROJ = "./src/ControlGallery/test/Xamarin.Forms.Core.iOS.UITests/Xamarin.Forms.Core.iOS.UITests.csproj";
 var IOS_TEST_LIBRARY = Argument("IOS_TEST_LIBRARY", $"./src/ControlGallery/test/Xamarin.Forms.Core.iOS.UITests/bin/{configuration}/Xamarin.Forms.Core.iOS.UITests.dll");
 var IOS_IPA_PATH = Argument("IOS_IPA_PATH", $"./src/ControlGallery/test/Xamarin.Forms.ControlGallery.iOS/bin/iPhoneSimulator/{configuration}/XamarinFormsControlGalleryiOS.app");
-var IOS_BUNDLE_ID = "com.xamarin.xamarin-forms-controlgallery";
+var IOS_BUNDLE_ID = "com.xamarin.xamarin_forms_controlgallery";
 var IOS_BUILD_IPA = Argument("IOS_BUILD_IPA", (target == "cg-ios-deploy") ? true : (false || isCIBuild) );
 Guid IOS_SIM_UDID = Argument("IOS_SIM_UDID", Guid.Empty);
 
@@ -61,6 +61,7 @@ var UWP_PFX_PATH = Argument("UWP_PFX_PATH", "Xamarin.Forms.ControlGallery.Window
 var UWP_APP_PACKAGES_PATH = Argument("UWP_APP_PACKAGES_PATH", "*/AppPackages/");
 var UWP_APP_DRIVER_INSTALL_PATH = Argument("UWP_APP_DRIVER_INSTALL_PATH", "https://github.com/microsoft/WinAppDriver/releases/download/v1.2-RC/WindowsApplicationDriver.msi");
 
+var ANDROID_BUNDLE_ID = "com.xamarin.xamarin_forms_controlgallery";
 var ANDROID_CONTROLGALLERY_PROJ = "src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj";
 var ANDROID_RENDERERS = Argument("ANDROID_RENDERERS", "FAST");
 
@@ -1013,9 +1014,9 @@ Task("DeployAndroid")
         MSBuild(BUILD_TASKS_PROJ, GetMSBuildSettings().WithRestore());
         MSBuild(ANDROID_CONTROLGALLERY_PROJ, GetMSBuildSettings().WithRestore());
         BuildAndroidApk(ANDROID_CONTROLGALLERY_PROJ, sign:true, configuration:configuration);
-        AdbUninstall("AndroidControlGallery.AndroidControlGallery");
-        AdbInstall("./Xamarin.Forms.ControlGallery.Android/bin/Debug/AndroidControlGallery.AndroidControlGallery-Signed.apk");
-        AmStartActivity("AndroidControlGallery.AndroidControlGallery/md546303760447087909496d02dc7b17ae8.Activity1");
+        AdbUninstall(ANDROID_BUNDLE_ID);
+        AdbInstall($"src/Controlgallery/src/Xamarin.Forms.ControlGallery.Android/bin/Debug/{ANDROID_BUNDLE_ID}-Signed.apk");
+        AmStartActivity($"{ANDROID_BUNDLE_ID}/md546303760447087909496d02dc7b17ae8.Activity1");
     });
 
 
