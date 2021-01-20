@@ -75,7 +75,7 @@ steps:
     inputs:
       SourceFolder: Xamarin.Forms.ControlGallery.Android/bin/$(BuildConfiguration)/
       Contents: '**/*.apk'
-      TargetFolder: 'Xamarin.Forms.ControlGallery.Android/$(outputfolder)/'
+      TargetFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/$(outputfolder)/'
       CleanTargetFolder: true
       OverWrite: true
   
@@ -83,7 +83,7 @@ steps:
     displayName: 'Copy Android apk $(renderers) for UITest'
     inputs:
       Contents: |
-        Xamarin.Forms.ControlGallery.Android/$(outputfolder)/$(ApkName)
+        src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/$(outputfolder)/$(ApkName)
       TargetFolder: '$(build.artifactstagingdirectory)/androidApp'
       CleanTargetFolder: true
   
