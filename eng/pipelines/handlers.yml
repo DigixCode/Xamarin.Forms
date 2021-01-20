@@ -100,7 +100,21 @@ stages:
         variables:
           provisionator.xcode : '$(System.DefaultWorkingDirectory)/eng/provisioning/xcode.csx'
           provisionator.osxPath : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
-          iOSCertSecureFileName: 'XamarinForms.p12'
-          iOSProvisioningSecureFileName: 'Xamarin Forms iOS Provisioning.mobileprovision'
+          provisionator.extraArguments : '--v'
         steps:
           - template: steps/build-osx.yml
+  
+  - stage: android
+    displayName: Build Android
+    ${{ if eq(variables['System.TeamProject'], 'devdiv') }}:
+      dependsOn: windows
+    ${{ if eq(variables['System.TeamProject'], 'public') }}:
+      dependsOn: []
+    jobs:
+      - template: steps/build-android.yml
+        parameters:
+          vmPool: $(macOSXVmPool)
+          vmImage: $(macOSXVmPool)
+          provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
+          provisionator.extraArguments : '--v'
+       

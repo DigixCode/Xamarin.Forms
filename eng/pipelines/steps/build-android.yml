@@ -9,7 +9,6 @@ parameters:
   slnPath : 'Xamarin.Forms.sln'
   buildTaskPath : 'Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj'
   androidProjectPath : 'Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj'
-  buildConfiguration : 'Debug'
   nugetVersion: $(NUGET_VERSION)
   monoVersion: $(MONO_VERSION)
   provisionatorPath: 'build/provisioning/provisioning.csx'
@@ -80,7 +79,7 @@ jobs:
         displayName: 'Copy Files to: $(System.DefaultWorkingDirectory)'
         condition: eq(variables['System.TeamProject'], 'DevDiv')
         inputs:
-          SourceFolder: 'Nuget/nuget/${{ parameters.buildConfiguration }}'
+          SourceFolder: 'Nuget/nuget/$(BuildConfiguration)'
           TargetFolder: 'Nuget'
 
       - bash: |
@@ -104,12 +103,12 @@ jobs:
         inputs:
           targetType: 'filePath'
           filePath: 'build.sh'
-          arguments: --target cg-android --ANDROID_RENDERERS="$(renderers)" --GoogleMapsAPIKey="$(GoogleMapsAPIKey)" --BUILD_CONFIGURATION=${{ parameters.buildConfiguration }} --MSBuildArguments='${{ variables.MSBuildArguments_cg_android }}'
+          arguments: --target cg-android --ANDROID_RENDERERS="$(renderers)" --GoogleMapsAPIKey="$(GoogleMapsAPIKey)" --BUILD_CONFIGURATION=$(BuildConfiguration) --MSBuildArguments='${{ variables.MSBuildArguments_cg_android }}'
 
       - task: CopyFiles@2
         displayName: 'Copy $(renderers)'
         inputs:
-          SourceFolder: Xamarin.Forms.ControlGallery.Android/bin/${{ parameters.buildConfiguration }}/
+          SourceFolder: Xamarin.Forms.ControlGallery.Android/bin/$(BuildConfiguration)/
           Contents: '**/*.apk'
           TargetFolder: 'Xamarin.Forms.ControlGallery.Android/$(outputfolder)/'
           CleanTargetFolder: true
