@@ -73,7 +73,7 @@ steps:
   - task: CopyFiles@2
     displayName: 'Copy $(renderers)'
     inputs:
-      SourceFolder: Xamarin.Forms.ControlGallery.Android/bin/$(BuildConfiguration)/
+      SourceFolder: src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/bin/$(BuildConfiguration)/
       Contents: '**/*.apk'
       TargetFolder: 'src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/$(outputfolder)/'
       CleanTargetFolder: true
