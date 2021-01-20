@@ -99,7 +99,7 @@ stages:
             - Xamarin.iOS
         variables:
           provisionator.xcode : '$(System.DefaultWorkingDirectory)/eng/provisioning/xcode.csx'
-          provisionator.osxPath : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
+          provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
           provisionator.extraArguments : '--v'
         steps:
           - template: steps/build-osx.yml
@@ -111,12 +111,19 @@ stages:
     ${{ if eq(variables['System.TeamProject'], 'public') }}:
       dependsOn: []
     jobs:
-      - template: steps/build-android.yml
-        parameters:
-          vmPool: $(macOSXVmPool)
+      - job: android
+        workspace:
+          clean: all
+        displayName: Android Phase
+        timeoutInMinutes: 120
+        pool:
+          name:  $(macOSXVmPool)
           vmImage: $(macOSXVmImage)
-          provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
-          provisionator.extraArguments : '--v'
+        variables:
           renderers: 'FAST'
           outputfolder: 'newRenderers'
-       
+          provisionator.xcode : '$(System.DefaultWorkingDirectory)/eng/provisioning/xcode.csx'
+          provisionator.path : '$(System.DefaultWorkingDirectory)/eng/provisioning/provisioning.csx'
+          provisionator.extraArguments : '--v'
+        steps:
+          - template: steps/build-android.yml

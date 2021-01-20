@@ -9,10 +9,6 @@ parameters:
   slnPath : 'Xamarin.Forms.sln'
   buildTaskPath : 'Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj'
   androidProjectPath : 'Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj'
-  nugetVersion: $(NUGET_VERSION)
-  monoVersion: $(MONO_VERSION)
-  provisionatorPath: 'build/provisioning/provisioning.csx'
-  provisionatorExtraArguments: ''
   MSBuildArguments_cg_android: ''
 
 jobs:
@@ -41,8 +37,8 @@ jobs:
         displayName: 'Provisionator'
         condition: eq(variables['provisioning'], 'true')
         inputs:
-          provisioning_script: ${{ parameters.provisionatorPath }}
-          provisioning_extra_args: ${{ parameters.provisionator.extraArguments }}
+          provisioning_script: $(provisionator.path)
+          provisioning_extra_args: $(provisionator.extraArguments)
 
       - task: UseDotNet@2
         displayName: 'Install .net core $(DOTNET_VERSION)'
@@ -83,10 +79,18 @@ jobs:
         displayName: 'Display NUGET_RESTORE_MSBUILD_ARGS for Nuget'
 
       - task: NuGetCommand@2
-        displayName: 'NuGet restore ${{ parameters.slnPath }}'
+        displayName: 'NuGet restore Xamarin.Forms'
         inputs:
           command: restore
-          restoreSolution: 'Xamarin.Forms.sln'
+          restoreSolution: variables['SolutionFile']
+          feedsToUse: config
+          nugetConfigPath: 'eng/DevopsNuget.config'
+
+      - task: NuGetCommand@2
+        displayName: 'NuGet restore ControlGallery'
+        inputs:
+          command: restore 
+          restoreSolution: variables['ControlGallerySolutionFile']
           feedsToUse: config
           nugetConfigPath: 'eng/DevopsNuget.config'
 
