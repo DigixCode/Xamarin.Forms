@@ -60,7 +60,12 @@ var UWP_TEST_LIBRARY = GetBuildVariable("UWP_TEST_LIBRARY", $"./src/ControlGalle
 var UWP_PFX_PATH = Argument("UWP_PFX_PATH", "Xamarin.Forms.ControlGallery.WindowsUniversal\\Xamarin.Forms.ControlGallery.WindowsUniversal_TemporaryKey.pfx");
 var UWP_APP_PACKAGES_PATH = Argument("UWP_APP_PACKAGES_PATH", "*/AppPackages/");
 var UWP_APP_DRIVER_INSTALL_PATH = Argument("UWP_APP_DRIVER_INSTALL_PATH", "https://github.com/microsoft/WinAppDriver/releases/download/v1.2-RC/WindowsApplicationDriver.msi");
+
+var ANDROID_CONTROLGALLERY_PROJ = "src/ControlGallery/src/Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj";
 var ANDROID_RENDERERS = Argument("ANDROID_RENDERERS", "FAST");
+
+var BUILD_TASKS_PROJ ="src/Forms/src/Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj";
+
 var XamarinFormsVersion = Argument("XamarinFormsVersion", "");
 var packageVersion = Argument("packageVersion", "");
 var releaseChannelArg = Argument("CHANNEL", "Stable");
@@ -802,10 +807,10 @@ Task("BuildPages")
 });
 
 Task("BuildTasks")
-    .Description("Build Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj")
+    .Description($"Build {BUILD_TASKS_PROJ}")
     .Does(() =>
 {
-    MSBuild("./src/Forms/src/Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj", GetMSBuildSettings().WithRestore());
+    MSBuild(BUILD_TASKS_PROJ, GetMSBuildSettings().WithRestore());
 });
 
 Task("Build")
@@ -864,7 +869,7 @@ Task("cg-android")
             buildSettings = buildSettings.WithRestore();
         }
 
-        MSBuild("./Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj", buildSettings);
+        MSBuild(ANDROID_CONTROLGALLERY_PROJ, buildSettings);
     });
 
 Task("cg-android-vs")
@@ -1005,9 +1010,9 @@ Task("DeployAndroid")
     .Description("Builds and deploy Android Control Gallery")
     .Does(() =>
     {
-        MSBuild("./Xamarin.Forms.Build.Tasks/Xamarin.Forms.Build.Tasks.csproj", GetMSBuildSettings().WithRestore());
-        MSBuild("./Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj", GetMSBuildSettings().WithRestore());
-        BuildAndroidApk("./Xamarin.Forms.ControlGallery.Android/Xamarin.Forms.ControlGallery.Android.csproj", sign:true, configuration:configuration);
+        MSBuild(BUILD_TASKS_PROJ, GetMSBuildSettings().WithRestore());
+        MSBuild(ANDROID_CONTROLGALLERY_PROJ, GetMSBuildSettings().WithRestore());
+        BuildAndroidApk(ANDROID_CONTROLGALLERY_PROJ, sign:true, configuration:configuration);
         AdbUninstall("AndroidControlGallery.AndroidControlGallery");
         AdbInstall("./Xamarin.Forms.ControlGallery.Android/bin/Debug/AndroidControlGallery.AndroidControlGallery-Signed.apk");
         AmStartActivity("AndroidControlGallery.AndroidControlGallery/md546303760447087909496d02dc7b17ae8.Activity1");
